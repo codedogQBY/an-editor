@@ -2,10 +2,11 @@
   "name": "an-editor",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@10.2.0",
   "description": "一个基于tiptap的可扩展编辑器框架，提供了vue2、vue3、react的开箱即用现成富文本编辑器",
   "scripts": {
-    "build": "pnpm -r build",
-    "dev": "pnpm -r dev",
+    "build": "turbo run build",
+    "dev": "turbo run dev",
     "lint": "eslint . --ext .ts,.tsx,.vue",
     "format": "prettier --write .",
     "test": "vitest run",
@@ -30,12 +31,16 @@
     "husky": "^8.0.3",
     "lint-staged": "^13.2.2",
     "prettier": "^2.8.8",
+    "turbo": "^2.4.4",
     "typescript": "^5.0.4",
     "vite": "^4.3.9",
     "vitest": "^0.31.1"
   },
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "packages/editors/*",
+    "packages/parsers/*",
+    "packages/plugins/*"
   ],
   "lint-staged": {
     "*.{ts,tsx,vue}": "eslint --fix",
