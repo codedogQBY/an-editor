@@ -1,18 +1,26 @@
-/tmp
+# 通用依赖目录（所有层级）
+**/node_modules/
+**/.turbo/
+
+# 构建产物
+/dist
 /out-tsc
 
-/node_modules
+# 日志文件
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-/.pnp
+
+# 环境文件
+.pnp
 .pnp.js
 
-.vscode/*
-.idea/*
-/.idea
+# 系统文件
 .DS_Store
-/dist
-.turbo/*
-/.turbo
-*/.turbo/
+
+# IDE 配置
+.vscode/
+.idea/
+
+# 临时文件
+/tmp
