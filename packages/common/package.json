@@ -1,7 +1,7 @@
 {
-  "name": "@an-editor/core",
+  "name": "@an-editor/common",
   "version": "0.1.0",
-  "description": "an-editor 编辑器核心包",
+  "description": "an-editor 编辑器通用工具",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -14,14 +14,8 @@
     "lint": "eslint src",
     "dev": "vite dev"
   },
-  "dependencies": {
-    "@an-editor/common": "workspace:*",
-    "@tiptap/core": "^2.0.3",
-    "@tiptap/pm": "^2.0.3",
-    "@tiptap/starter-kit": "^2.0.3"
-  },
   "devDependencies": {
     "vite": "^4.3.9",
     "vite-plugin-dts": "^2.3.0"
   }
-}
+} 

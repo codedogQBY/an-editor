@@ -1,4 +1,4 @@
-import { merge} from '../../../common/utils';
+import { merge} from '@an-editor/common';
 
 type StateListener<T = any> = (newValue: T, oldValue: T) => void;
 

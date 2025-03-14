@@ -3,8 +3,9 @@
 **/.turbo/
 
 # 构建产物
-/dist
-/out-tsc
+**/dist
+**/out-tsc
+**/build
 
 # 日志文件
 npm-debug.log*

@@ -1,9 +1,10 @@
-type Mergeable = Record<string, any> | any[];
-
 // 判断是否为纯对象（排除数组、null 和特殊对象）
 const isPlainObject = (value: any): value is Record<string, any> => {
   return Object.prototype.toString.call(value) === '[object Object]';
 };
+
+// 定义可合并类型
+export type Mergeable = Record<string, any> | any[];
 
 // 判断是否为可合并类型
 const isMergeable = (value: any): value is Mergeable => {
@@ -11,9 +12,10 @@ const isMergeable = (value: any): value is Mergeable => {
 };
 
 // 核心合并函数
-function merge<T extends Mergeable, U extends Mergeable>(target: T, source: U): T & U;
-function merge<T extends Mergeable>(target: T, ...sources: Mergeable[]): T;
-function merge(target: any, ...sources: any[]): any {
+export function merge<T extends Mergeable, U extends Mergeable>(target: T, source: U): T & U;
+export function merge<T extends Mergeable>(target: T, ...sources: Mergeable[]): T;
+export function merge(target: any, ...sources: any[]): any {
+  // 函数实现保持不变
   for (const source of sources) {
     for (const key in source) {
       if (Object.prototype.hasOwnProperty.call(source, key)) {
@@ -34,5 +36,3 @@ function merge(target: any, ...sources: any[]): any {
   }
   return target;
 }
-
-export { merge };
