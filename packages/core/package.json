@@ -1,0 +1,25 @@
+{
+  "name": "@an-editor/core",
+  "version": "0.1.0",
+  "description": "an-editor 编辑器核心包",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite build --watch",
+    "build": "vite build && tsc --emitDeclarationOnly",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@tiptap/core": "^2.0.3",
+    "@tiptap/pm": "^2.0.3",
+    "@tiptap/starter-kit": "^2.0.3"
+  },
+  "devDependencies": {
+    "vite": "^4.3.9",
+    "vite-plugin-dts": "^2.3.0"
+  }
+}
