@@ -28,7 +28,9 @@ export function merge(target: any, ...sources: any[]): any {
         } else {
           // 直接赋值（包含覆盖逻辑）
           target[key] = isMergeable(srcVal)
-            ? (Array.isArray(srcVal) ? [...srcVal] : { ...srcVal })
+            ? Array.isArray(srcVal)
+              ? [...srcVal]
+              : { ...srcVal }
             : srcVal;
         }
       }

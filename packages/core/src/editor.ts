@@ -1,0 +1,3 @@
+class Editor {}
+
+export { Editor };

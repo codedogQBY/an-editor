@@ -1,4 +1,4 @@
-import { merge} from '@an-editor/common';
+import { merge } from '@an-editor/common';
 
 type StateListener<T = any> = (newValue: T, oldValue: T) => void;
 
@@ -39,7 +39,7 @@ class Store {
     let currentState = this.state;
 
     for (const k of keys) {
-      if (!currentState.hasOwnProperty(k)) {
+      if (!Object.prototype.hasOwnProperty.call(currentState, k)) {
         currentState[k] = {};
       } else if (typeof currentState[k] !== 'object' || currentState[k] === null) {
         return false; // 中间路径非对象，无法设置
@@ -54,7 +54,7 @@ class Store {
     // 设置新值
     currentState[lastKey] = value;
     // 通知监听器
-    this.notify(key,value,oldValue);
+    this.notify(key, value, oldValue);
     return true;
   }
 
@@ -82,7 +82,7 @@ class Store {
   private notify(key: string, newValue: any, oldValue: any): void {
     const listeners = this.listeners[key];
     if (listeners) {
-      listeners.forEach((listener) => {
+      listeners.forEach(listener => {
         listener(newValue, oldValue);
       });
     }
