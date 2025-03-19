@@ -1,4 +1,4 @@
-import { Editor, AnyExtension } from '@tiptap/core';
+import { Editor, AnyExtension, EditorOptions } from '@tiptap/core';
 import { StoreManager, EventManager, I18nManager } from '../managers';
 import { AnPlugin } from '../plugin';
 
@@ -7,16 +7,10 @@ export type EventHandler<T = unknown> = (payload: T) => void;
 export type CommandHandler = (...args: any[]) => boolean | void;
 export type ShortcutHandler = () => void;
 
-export interface EditorConfig {
+export interface EditorConfig extends EditorOptions {
   initialState?: Record<string, any>;
-  extensions?: AnyExtension[];
   locale?: string;
-}
-
-export interface EditorConfig {
-  initialState?: Record<string, any>;
-  extensions?: AnyExtension[];
-  locale?: string;
+  plugins: AnPlugin[];
 }
 
 export interface PluginContext {
@@ -25,12 +19,14 @@ export interface PluginContext {
   events: EventManager;
   i18n: I18nManager;
   getPlugin: <T extends AnPlugin>(name: string) => T | null;
-  registerExtension: (ext: AnyExtension) => void;
+  registerExtension: (exts: AnyExtension[]) => void;
   registerCommand: (name: string, handler: CommandHandler) => void;
-  registerShortcut: (keys: string, handler: ShortcutHandler) => void;
 }
 
 export interface PluginConfig {
+  name?: string;
+  dependencies?: string[];
+  extension: AnyExtension[];
   defaultConfig?: Record<string, any>;
   i18n?: Record<string, Record<string, string>>;
 }
