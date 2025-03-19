@@ -1,17 +1,16 @@
 import { merge } from '@an-editor/common';
+import { Listener } from '../types';
 
-type StateListener<T = any> = (newValue: T, oldValue: T) => void;
-
-class Store {
+class StoreManager {
   private readonly state: Record<string, any> = {};
-  private readonly listeners: Record<string, StateListener[]> = {};
+  private readonly listeners: Record<string, Listener[]> = {};
 
-  constructor(initialState: Record<string, any>) {
+  constructor(initialState = {}) {
     this.state = { ...initialState };
     this.listeners = {};
   }
 
-  addState(pluginName: string, state: Record<string, any>): void {
+  addPluginState(pluginName: string, state: Record<string, any>): void {
     if (this.state[pluginName]) {
       this.state[pluginName] = merge(this.state[pluginName], state);
     } else {
@@ -58,7 +57,7 @@ class Store {
     return true;
   }
 
-  public watch<T = any>(key: string, listener: StateListener<T>): () => void {
+  public watch<T = any>(key: string, listener: Listener<T>): () => void {
     if (!this.listeners[key]) {
       this.listeners[key] = [];
     }
@@ -69,7 +68,7 @@ class Store {
     return () => {
       const listeners = this.listeners[key];
       if (!listeners) return;
-      const index = listeners.indexOf(listener as StateListener);
+      const index = listeners.indexOf(listener as Listener);
       if (index !== -1) {
         listeners.splice(index, 1);
         if (listeners.length === 0) {
@@ -89,4 +88,4 @@ class Store {
   }
 }
 
-export { Store };
+export { StoreManager };
