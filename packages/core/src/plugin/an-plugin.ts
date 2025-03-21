@@ -28,6 +28,13 @@ abstract class AnPlugin {
     if (this.config.defaultConfig) {
       this.context.store.addPluginState(this.name, this.config.defaultConfig);
     }
+
+    // 如果提供了commands，自动注册到command-manager
+    if (this.config.commands) {
+      Object.entries(this.config.commands).forEach(([commandName, commandConfig]) => {
+        this.context.commands.registerCommand(this.name, commandName, commandConfig);
+      });
+    }
   }
 }
 

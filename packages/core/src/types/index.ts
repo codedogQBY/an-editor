@@ -1,11 +1,15 @@
 import { Editor, AnyExtension, EditorOptions } from '@tiptap/core';
-import { StoreManager, EventManager, I18nManager } from '../managers';
+import { StoreManager, EventManager, I18nManager, CommandManager } from '../managers';
 import { AnPlugin } from '../plugin';
 
 export type Listener<T = any> = (newValue: T, oldValue: T) => void;
 export type EventHandler<T = unknown> = (payload: T) => void;
 export type CommandHandler = (...args: any[]) => boolean | void;
-export type ShortcutHandler = () => void;
+export type CommandConfig = {
+  name: string;
+  command: CommandHandler;
+  shortcut?: string;
+};
 
 export interface EditorConfig extends EditorOptions {
   initialState?: Record<string, any>;
@@ -18,9 +22,8 @@ export interface PluginContext {
   store: StoreManager;
   events: EventManager;
   i18n: I18nManager;
+  commands: CommandManager;
   getPlugin: <T extends AnPlugin>(name: string) => T | null;
-  registerExtension: (exts: AnyExtension[]) => void;
-  registerCommand: (name: string, handler: CommandHandler) => void;
 }
 
 export interface PluginConfig {
@@ -29,4 +32,5 @@ export interface PluginConfig {
   extension: AnyExtension[];
   defaultConfig?: Record<string, any>;
   i18n?: Record<string, Record<string, string>>;
+  commands?: Record<string, CommandConfig>;
 }

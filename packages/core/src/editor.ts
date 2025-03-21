@@ -1,6 +1,5 @@
-import { Editor as TiptapEditor } from '@tiptap/core';
-import StarterKit from '@tiptap/starter-kit';
-import { StoreManager, I18nManager, PluginManager, EventManager } from './managers';
+import { AnyExtension, Editor as TiptapEditor } from '@tiptap/core';
+import { StoreManager, I18nManager, PluginManager, EventManager, CommandManager } from './managers';
 import { EditorConfig } from './types';
 
 class AnEditor {
@@ -9,27 +8,37 @@ class AnEditor {
   public i18n: I18nManager;
   public plugins: PluginManager;
   public events: EventManager;
+  public commands: CommandManager;
 
   constructor(options: Partial<EditorConfig>) {
     // 初始化各个管理器
     this.store = new StoreManager(options.initialState || {});
     this.events = new EventManager();
     this.i18n = new I18nManager();
+    this.commands = new CommandManager();
 
     // 设置语言
     if (options.locale) {
       this.i18n.setLanguage(options.locale);
     }
-
     // 初始化编辑器
     this.init(options);
 
-    // 初始化插件管理器
-    this.plugins = new PluginManager(this.editor!, this.store, this.events, this.i18n);
+    // 初始化plugin-manager
+    this.plugins = new PluginManager(
+      this.editor!,
+      this.store,
+      this.events,
+      this.i18n,
+      this.commands
+    );
   }
 
   private init(options: Partial<EditorConfig>) {
-    const baseExtensions = [...(options.extensions || []), StarterKit];
+    const baseExtensions = options.plugins?.reduce<AnyExtension[]>((extensions, plugin) => {
+      const exts = plugin.extensions || [];
+      return extensions.concat(exts);
+    }, []);
     this.editor = new TiptapEditor({
       extensions: baseExtensions,
       content: options.content,
@@ -41,8 +50,8 @@ class AnEditor {
   }
 
   // 执行编辑器命令
-  executeCommand(name: string, ...args: any[]) {
-    return this.plugins.executeCommand(name, ...args);
+  executeCommand(pluginName: string, name: string, ...args: any[]): boolean | void {
+    return this.commands.executeCommand(pluginName, name, ...args);
   }
 
   // 获取编辑器HTML内容
